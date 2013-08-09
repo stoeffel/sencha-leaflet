@@ -1,0 +1,18 @@
+{
+  "name": "sencha-leaflet",
+  "version": "0.0.1",
+  "main": "sencha-leaflet.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "leaflet": "~0.6.4"
+  },
+  "devDependencies": {
+    "jasmine": "~1.3.1"
+  }
+}
