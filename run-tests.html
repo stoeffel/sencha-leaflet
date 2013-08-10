@@ -1,13 +1,14 @@
 <html>
-
+  
   <head>
     <title id="page-title">Tester</title>
     <link rel="stylesheet" type="text/css" href="bower_components/jasmine/lib/jasmine-core/jasmine.css">
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
     <script type="text/javascript" src="bower_components/jasmine/lib/jasmine-core/jasmine.js"></script>
     <script type="text/javascript" src="bower_components/jasmine/lib/jasmine-core/jasmine-html.js"></script>
     <!-- depending libraries -->
     <script type="text/javascript" src="touch-2.2.1/sencha-touch-all-debug.js"></script>
-    <script type="text/javascript" src="bower_components/leaflet/src/Leaflet.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
     <!-- include specs here -->
     <script type="text/javascript" src="specs/basicAssumptions.js"></script>
     <script type="text/javascript" src="specs/sencha-leaflet.js"></script>
@@ -16,7 +17,9 @@
     <!-- test launcher -->
     <script type="text/javascript" src="app-test.js"></script>
   </head>
-
-  <body></body>
+  
+  <body>
+    <div id="mapDiv" style="height:300px;width:300px;"></div>
+  </body>
 
 </html>

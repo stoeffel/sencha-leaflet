@@ -1,26 +1,49 @@
 describe("Sencha-Leaflet", function() {
+    var view;
+    beforeEach(function() {
+        view = Ext.create('MO.view.Leaflet', {
+            renderTo: 'mapDiv'
+        });
+    });
     it('should be a class', function() {
-        var cmp = Ext.create('MO.view.Leaflet');
-        expect(cmp).toBeDefined();
+        expect(view).toBeDefined();
     });
     it('should be a component', function() {
-        var cmp = Ext.create('MO.view.Leaflet');
-        expect(cmp.superclass.$className).toBe('Ext.Component');
+        expect(view.superclass.$className).toBe('Ext.Component');
     });
     it('should have a property map', function() {
-        var cmp = Ext.create('MO.view.Leaflet');
-        expect(cmp).toBeDefined('map');
+        expect(view).toBeDefined('map');
     });
-    xit('tracks that afterRender has been called', function() {
-        var cmp = Ext.create('MO.view.Leaflet', {
-            renderTo: Ext.getBody()
-        });
-        spyOn(cmp, 'afterRender');
+    it('should render', function() {
         waitsFor(function() {
-            return cmp.isRendered();
+            return view.isRendered();
+        });
+    });
+});
+describe("sencha-leaflet AfterRender", function() {
+    var renderedView, map;
+    beforeEach(function() {
+        var mapDiv = Ext.query('#mapDiv')[0];
+        if (mapDiv) {
+            Ext.get(mapDiv).setHtml('');
+        }
+        renderedView = Ext.create('MO.view.Leaflet', {
+            renderTo: 'mapDiv'
+        });
+        waitsFor(function() {
+            return renderedView.isRendered();
         });
         runs(function() {
-            expect(cmp.afterRender).toHaveBeenCalled();
+            map = renderedView.getMap();
         });
+    });
+    it('should have a leaflet map', function() {
+        expect(map instanceof L.Class).toBe(true);
+    });
+    it('tracks resizing of the map and the div', function() {
+        renderedView.setHeight(100);
+        expect(map.getSize().y).toBe(100);
+        renderedView.setWidth(100);
+        expect(map.getSize().x).toBe(100);
     });
 });

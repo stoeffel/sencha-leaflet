@@ -1,23 +1,38 @@
 Ext.define('MO.view.Leaflet', {
     extend: 'Ext.Component',
+    alias: 'widget.leafletMap',
     config: {
-        map: null
+        map: null,
+        height: '100%',
+        width: '100%',
+        listeners: {
+            order: 'after',
+            initialize: function() {
+                this.afterInitialize();
+            },
+            resize: function(w, h, oW, oH) {
+                this.onResize();
+            },
+            heightchange: function() {
+                this.onResize();
+            },
+            widthchange: function() {
+                this.onResize();
+            }
+        }
     },
-    afterRender: function(t, eOpts) {
-        this.callParent(arguments);
-
-        //var leafletRef = window.L;
-        //if (leafletRef == null) {
-            //this.update('No leaflet library loaded');
-        //} else {
-            //var map = L.map(this.getId());
-            //map.setView([42.3583, -71.0603], 13);
-            //this.setMap(map);
-            //L.tileLayer('http://{s}.tile.cloudmade.com/{key}/{styleId}/256/{z}/{x}/{y}.png', {
-                //key: 'YOUR_API_KEY',
-                //styleId: 997,
-                //maxZoom: 18
-            //}).addTo(map);
-        //}
+    afterInitialize: function() {
+        var id = this.getId(),
+            map = L.map(id);
+        map.setView([42.3583, -71.0603], 13);
+        this.setMap(map);
+        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
+    },
+    onResize: function() {
+        console.log('resize');
+        var map = this.getMap();
+        if (map) {
+            map.invalidateSize();
+        }
     }
 });
