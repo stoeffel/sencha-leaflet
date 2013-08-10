@@ -21,15 +21,13 @@ Ext.define('MO.view.Leaflet', {
             order: 'after',
             initialize: function() {
                 var task;
-                if (Ext.getDom(this.getId())) {
+                if (Ext.getDom(this.getId())) { // check if the component is rendered
                     this.afterInitialize();
                     this.setInitialized(true);
                 } else {
-                    task = Ext.create('Ext.util.DelayedTask', function() {
-                        console.log('notfound');
+                    task = Ext.create('Ext.util.DelayedTask', function() { // wait until the component is rendered
                         if (Ext.getDom(this.getId())) {
                             task.cancel();
-                        console.log('found');
                             this.afterInitialize();
                             this.setInitialized(true);
                         }
@@ -55,7 +53,6 @@ Ext.define('MO.view.Leaflet', {
     afterInitialize: function() {
         var id = this.getId(),
             map = L.map(id);
-        console.log(id)
         if (this.getInitialCenter())
             map.setView(this.getInitialCenter(), this.getInitialZoom());
         this.setMap(map);
@@ -73,6 +70,9 @@ Ext.define('MO.view.Leaflet', {
         this.setLayers(layers);
         return layers;
     },
+    /*
+     * handle resizing of the map
+     */
     onResize: function() {
         var map = this.getMap();
         if (map) {
