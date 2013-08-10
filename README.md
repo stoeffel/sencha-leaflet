@@ -7,6 +7,7 @@ Dependancies
 ------------
 
 * Sencha touch-2.2.1
-* bower components
+* Leaflet
+* bower
 
 copy sencha touch to touch-2.2.1 and bower install
