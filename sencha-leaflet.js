@@ -14,12 +14,28 @@ Ext.define('MO.view.Leaflet', {
         layers: [],
         height: '100%',
         width: '100%',
-        initialCenter: [ 40.343633, 116.001635 ],
+        initialCenter: [40.343633, 116.001635],
         initialZoom: 13,
+        initialized: false,
         listeners: {
             order: 'after',
             initialize: function() {
-                this.afterInitialize();
+                var task;
+                if (Ext.getDom(this.getId())) {
+                    this.afterInitialize();
+                    this.setInitialized(true);
+                } else {
+                    task = Ext.create('Ext.util.DelayedTask', function() {
+                        console.log('notfound');
+                        if (Ext.getDom(this.getId())) {
+                            task.cancel();
+                        console.log('found');
+                            this.afterInitialize();
+                            this.setInitialized(true);
+                        }
+                    }, this);
+                    task.delay(200);
+                }
             },
             resize: function(w, h, oW, oH) {
                 this.onResize();
@@ -39,6 +55,7 @@ Ext.define('MO.view.Leaflet', {
     afterInitialize: function() {
         var id = this.getId(),
             map = L.map(id);
+        console.log(id)
         if (this.getInitialCenter())
             map.setView(this.getInitialCenter(), this.getInitialZoom());
         this.setMap(map);

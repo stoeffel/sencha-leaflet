@@ -87,3 +87,51 @@ describe("Sencha-Leaflet Config", function() {
         expect(view.getLayers()[0] instanceof L.TileLayer).toBe(true);
     });
 });
+describe("Sencha-Leaflet in component", function() {
+    beforeEach(function() {
+        var mapDiv = Ext.query('#mapDiv')[0];
+        if (mapDiv) {
+            Ext.get(mapDiv).setHtml('');
+        }
+        runs(function() {
+            Ext.require('Ext.TabPanel');
+        });
+        waitsFor(function() {
+            return Ext.TabPanel != null
+        });
+    });
+    it('should be in the 2nd tab', function() {
+        Ext.application({
+            name: 'Sencha-Leaflet',
+            launch: function() {
+                var tabPanel = Ext.create('Ext.TabPanel', {
+                    renderTo: 'mapDiv',
+                    tabBarPosition: 'bottom',
+                    defaults: {
+                        styleHtmlContent: true
+                    },
+                    items: [{
+                            title: 'Home',
+                            iconCls: 'home',
+                            html: 'Leaflet component for Sencha Touch 2'
+                        }, {
+                            xtype: 'leafletMap',
+                            title: 'Map',
+                            iconCls: 'maps',
+                            initialCenter: [47.556, 8.8965],
+                            initialZoom: 15,
+                            layers: [{
+                                    url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                    options: {
+                                        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                });
+                expect(tabPanel.down('leafletMap').getMap()).toBeDefined();
+            }
+        });
+    });
+});
