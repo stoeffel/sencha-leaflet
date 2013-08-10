@@ -14,6 +14,8 @@ Ext.define('MO.view.Leaflet', {
         layers: [],
         height: '100%',
         width: '100%',
+        initialCenter: [ 40.343633, 116.001635 ],
+        initialZoom: 13,
         listeners: {
             order: 'after',
             initialize: function() {
@@ -37,7 +39,8 @@ Ext.define('MO.view.Leaflet', {
     afterInitialize: function() {
         var id = this.getId(),
             map = L.map(id);
-        map.setView([42.3583, -71.0603], 13);
+        if (this.getInitialCenter())
+            map.setView(this.getInitialCenter(), this.getInitialZoom());
         this.setMap(map);
         L.layerGroup(this.createLayers(this.getLayers())).addTo(map);
         //L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);

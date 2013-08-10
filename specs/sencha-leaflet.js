@@ -8,6 +8,12 @@ describe("Sencha-Leaflet", function() {
     it('should be a class', function() {
         expect(view).toBeDefined();
     });
+    it('should have a alias', function() {
+        var widget = Ext.widget('leafletMap', {
+            renderTo: 'mapDiv'
+        });
+        expect(widget).toBeDefined();
+    });
     it('should be a component', function() {
         expect(view.superclass.$className).toBe('Ext.Component');
     });
@@ -48,24 +54,35 @@ describe("Sencha-Leaflet AfterRender", function() {
     });
 });
 describe("Sencha-Leaflet Config", function() {
+    var layer;
     beforeEach(function() {
         var mapDiv = Ext.query('#mapDiv')[0];
         if (mapDiv) {
             Ext.get(mapDiv).setHtml('');
         }
-    });
-    it('takes a layers array and passes it to the map', function() {
-        var layers = [{
+        layers = [{
                 url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 options: {
                     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
                 }
             }
-        ],
-            view = Ext.create('MO.view.Leaflet', {
-                renderTo: 'mapDiv',
-                layers: layers
-            }),
+        ];
+    });
+    it('takes a layers array and passes it to the map', function() {
+        var view = Ext.create('MO.view.Leaflet', {
+            renderTo: 'mapDiv',
+            layers: layers
+        }),
+            map = view.getMap();
+        expect(view.getLayers()[0] instanceof L.TileLayer).toBe(true);
+    });
+    it('should set the view to the initialcenter and initialzoom', function() {
+        var view = Ext.create('MO.view.Leaflet', {
+            renderTo: 'mapDiv',
+            layers: layers,
+            initialCenter: [47.556, 8.8965],
+            initialZoom: 15
+        }),
             map = view.getMap();
         expect(view.getLayers()[0] instanceof L.TileLayer).toBe(true);
     });
