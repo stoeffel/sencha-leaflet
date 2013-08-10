@@ -20,7 +20,7 @@ describe("Sencha-Leaflet", function() {
         });
     });
 });
-describe("sencha-leaflet AfterRender", function() {
+describe("Sencha-Leaflet AfterRender", function() {
     var renderedView, map;
     beforeEach(function() {
         var mapDiv = Ext.query('#mapDiv')[0];
@@ -45,5 +45,28 @@ describe("sencha-leaflet AfterRender", function() {
         expect(map.getSize().y).toBe(100);
         renderedView.setWidth(100);
         expect(map.getSize().x).toBe(100);
+    });
+});
+describe("Sencha-Leaflet Config", function() {
+    beforeEach(function() {
+        var mapDiv = Ext.query('#mapDiv')[0];
+        if (mapDiv) {
+            Ext.get(mapDiv).setHtml('');
+        }
+    });
+    it('takes a layers array and passes it to the map', function() {
+        var layers = [{
+                url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                options: {
+                    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
+                }
+            }
+        ],
+            view = Ext.create('MO.view.Leaflet', {
+                renderTo: 'mapDiv',
+                layers: layers
+            }),
+            map = view.getMap();
+        expect(view.getLayers()[0] instanceof L.TileLayer).toBe(true);
     });
 });
