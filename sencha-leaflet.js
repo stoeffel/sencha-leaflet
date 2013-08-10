@@ -1,3 +1,11 @@
+/**
+* Sencha-Leaflet
+* ==============
+*
+* Author: Christoph Hermann
+* 
+* A leaflet component for sencha touch
+*/
 Ext.define('MO.view.Leaflet', {
     extend: 'Ext.Component',
     alias: 'widget.leafletMap',
@@ -29,7 +37,6 @@ Ext.define('MO.view.Leaflet', {
         L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
     },
     onResize: function() {
-        console.log('resize');
         var map = this.getMap();
         if (map) {
             map.invalidateSize();
